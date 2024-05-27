@@ -61,6 +61,7 @@
                         th:errors="*{name}"
                         class="error-messages"
                       >
+                      <div th:errors="*{name}" style="color: red">エラー！</div>
                         氏名を入力してください
                       </label>
                       <input
@@ -85,6 +86,7 @@
                         th:errors="*{mailAddress}"
                         class="error-messages"
                       >
+                      <div th:errors="*{mailAddress}" style="color: red">エラー！</div>
                         メールアドレスを入力してください
                       </label>
                       <input
@@ -109,6 +111,7 @@
                         th:errors="*{password}"
                         class="error-messages"
                       >
+                      <div th:errors="*{password}" style="color: red">エラー！</div>
                         パスワードを入力してください
                       </label>
                       <input
