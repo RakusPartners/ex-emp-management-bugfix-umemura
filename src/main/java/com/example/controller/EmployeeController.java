@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.domain.Employee;
 import com.example.form.UpdateEmployeeForm;
 import com.example.service.EmployeeService;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -104,5 +106,30 @@ public class EmployeeController {
 		employee.setDependentsCount(form.getIntDependentsCount());
 		employeeService.update(employee);
 		return "redirect:/employee/showList";
+	}
+
+	@PostMapping("/search")
+	public String search(@RequestParam(name = "name", required = false, defaultValue = "") String name, Model model) {
+		List<Employee> employeeList;
+
+		if (StringUtils.isEmpty(name)) {
+			employeeList = employeeService.showList();
+		} else {
+			employeeList = employeeService.findEmployeesByName(name);
+		}
+
+		if (employeeList.isEmpty()) {
+			model.addAttribute("errorMessage", "1件もありませんでした");
+			employeeList = employeeService.showList();
+		} else {
+			model.addAttribute("errorMessage", null);
+		}
+
+		model.addAttribute("employeeList", employeeList);
+
+		String administratorName = (String) session.getAttribute("administratorName");
+		model.addAttribute("administratorName", administratorName);
+
+		return "employee/list";
 	}
 }

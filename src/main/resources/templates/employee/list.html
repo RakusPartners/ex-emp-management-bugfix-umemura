@@ -67,7 +67,7 @@
               </li>
             </ul>
             <p class="navbar-text navbar-right">
-              <span th:text="${session.administratorName}">山田太郎</span
+              <span th:text="${administratorName}">山田太郎</span
               >さんこんにちは！ &nbsp;&nbsp;&nbsp;
               <a
                 href="../administrator/login.html"
@@ -77,6 +77,15 @@
               >
             </p>
           </div>
+          <!-- 従業員一覧画面の検索フォーム -->
+          <form action="#" th:action="@{/employee/search}" method="post">
+            <div class="form-group">
+                <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+                  <p th:text="${errorMessage}"></p>
+                </div>
+              <input type="text" class="form-control" id="searchName" name="name" placeholder="従業員名を入力してください"><button type="submit" class="btn btn-primary">検索</button>
+            </div>
+          </form>
           <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
