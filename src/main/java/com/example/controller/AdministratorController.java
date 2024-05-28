@@ -3,6 +3,7 @@ package com.example.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,13 +75,15 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@PostMapping("/insert")
-	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result,
+			RedirectAttributes redirectAttributes, Model model) {
 		if (result.hasErrors()) {
 			return toInsert();
 		}
 
-		if (!form.getPassword().equals(form.getConfirmPassword())) {
-			result.rejectValue("confirmPassword", "PasswordConfirmNotMatch", "パスワードと確認用パスワードが一致しません");
+		Administrator existingAdministrator = administratorService.findByMailAddress(form.getMailAddress());
+		if (existingAdministrator != null) {
+			model.addAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
 			return toInsert();
 		}
 
