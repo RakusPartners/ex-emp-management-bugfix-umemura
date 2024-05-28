@@ -3,6 +3,7 @@ package com.example.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,15 +76,15 @@ public class AdministratorController {
 	 */
 	@PostMapping("/insert")
 	public String insert(@Validated InsertAdministratorForm form, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Model model) {
 		if (result.hasErrors()) {
 			return toInsert();
 		}
 
 		Administrator existingAdministrator = administratorService.findByMailAddress(form.getMailAddress());
 		if (existingAdministrator != null) {
-			redirectAttributes.addFlashAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
-			return "redirect:/toInsert";
+			model.addAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
+			return toInsert();
 		}
 
 		Administrator administrator = new Administrator();
