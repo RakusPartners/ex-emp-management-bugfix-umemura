@@ -84,6 +84,7 @@ public class AdministratorController {
 		Administrator existingAdministrator = administratorService.findByMailAddress(form.getMailAddress());
 		if (existingAdministrator != null) {
 			model.addAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
+
 			return toInsert();
 		}
 
@@ -120,6 +121,7 @@ public class AdministratorController {
 			redirectAttributes.addFlashAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return "redirect:/";
 		}
+		session.setAttribute("administratorName", administrator.getName());
 		return "redirect:/employee/showList";
 	}
 
