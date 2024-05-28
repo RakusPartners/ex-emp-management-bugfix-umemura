@@ -79,6 +79,11 @@ public class AdministratorController {
 			return toInsert();
 		}
 
+		if (!form.getPassword().equals(form.getConfirmPassword())) {
+			result.rejectValue("confirmPassword", "PasswordConfirmNotMatch", "パスワードと確認用パスワードが一致しません");
+			return toInsert();
+		}
+
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
@@ -112,6 +117,7 @@ public class AdministratorController {
 			redirectAttributes.addFlashAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return "redirect:/";
 		}
+		session.setAttribute("administratorName", administrator.getName());
 		return "redirect:/employee/showList";
 	}
 
