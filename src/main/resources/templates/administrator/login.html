@@ -51,7 +51,7 @@
                 <legend>ログイン</legend>
                 <div class="form-group">
                   <div th:if="${errorMessage}" class="alert alert-danger">
-                    <p th:text="${errorMessage}">
+                    <p th:utext="${errorMessage}">
                       メールアドレスまたはパスワードが間違っています
                     </p>
                   </div>
