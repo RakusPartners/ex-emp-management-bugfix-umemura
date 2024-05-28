@@ -74,9 +74,16 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@PostMapping("/insert")
-	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result,
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return toInsert();
+		}
+
+		Administrator existingAdministrator = administratorService.findByMailAddress(form.getMailAddress());
+		if (existingAdministrator != null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
+			return "redirect:/toInsert";
 		}
 
 		Administrator administrator = new Administrator();

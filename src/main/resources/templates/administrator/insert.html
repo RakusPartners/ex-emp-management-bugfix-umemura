@@ -31,6 +31,11 @@
           />
         </div>
       </div>
+
+      <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+      </div>
+
       <!-- login form -->
       <div class="row">
         <div

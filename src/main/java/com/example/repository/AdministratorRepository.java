@@ -69,7 +69,7 @@ public class AdministratorRepository {
 	}
 
 	/**
-	 * 管理者情報を挿入します.
+	 * 管理者情報を挿入します
 	 * 
 	 * @param administrator 管理者情報
 	 */
