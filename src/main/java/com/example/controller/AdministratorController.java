@@ -84,7 +84,6 @@ public class AdministratorController {
 		Administrator existingAdministrator = administratorService.findByMailAddress(form.getMailAddress());
 		if (existingAdministrator != null) {
 			model.addAttribute("errorMessage", "既に登録されているメールアドレスのため新たに管理者登録ができません");
-
 			return toInsert();
 		}
 
